@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ImageBitmap</string>
+
+    <string name="main_activity_load_image_button_text">Load Image</string>
+
+    <string name="main_activity_main_image_content_description">Main Image</string>
+
+    <string name="main_activity_no_image_selected">No Image Selected</string>
+
 </resources>
