@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -115,14 +116,23 @@ fun ImageBitmapApp(mainViewModel: MainViewModel, getContent: ActivityResultLaunc
                     .background(color = Color.White)){
 
 
-                val bitmap = mainViewModel.imageBitmap.value?.asImageBitmap()
+                val bitmap = mainViewModel.imageBitmap.value
                 if(bitmap != null) {
+
+                    //Scaling bitmap, otherwise throws exception of
+                    //trying to draw too large(432000000bytes) bitmap
+                    val newWidth = 600
+                    val newHeight = bitmap.height * newWidth / bitmap.width
+                    val scaledBitmap = Bitmap.createScaledBitmap(
+                        bitmap, newWidth, newHeight, true);
+
                     Image(
-                        bitmap = bitmap,
+                        bitmap = scaledBitmap.asImageBitmap(),
                         contentDescription = stringResource(id = R.string.main_activity_main_image_content_description),
-                        modifier = Modifier.width(300.dp).height(240.dp),
-                        contentScale = ContentScale.FillBounds
+                        modifier = Modifier.width(300.dp).wrapContentHeight(),
+                        contentScale = ContentScale.FillWidth
                     )
+
                 }else{
 
                     Text(text = stringResource(id = R.string.main_activity_no_image_selected))
